@@ -180,15 +180,16 @@ if(charge === ""){
  }
 
  lastResult = {
-  pickup,daughter,dp,dc,answer
+  Charge,pickup,daughter,dp,dc,answer
  };
 
  document.getElementById("output").textContent =
   formatNumber(answer) + " mm";
 
  document.getElementById("detail").textContent =
-  "Pickup " + pickup + " | Daughter " + daughter;
-
+   "Charge: " + charge +
+   " | Pickup " + pickup +
+   " | Daughter " + daughter;
  document.getElementById("result").style.display = "block";
  document.getElementById("share").style.display = "block";
 }
