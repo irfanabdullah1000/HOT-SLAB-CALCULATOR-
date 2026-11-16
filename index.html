@@ -152,6 +152,12 @@ function formatNumber(number){
 function calculate(){
  const pickup = document.getElementById("pickup").value;
  const daughter = document.getElementById("daughter").value;
+ const charge = document.getElementById("charge").value.trim();
+
+if(charge === ""){
+  alert("Nomor Charge wajib diisi.");
+  return;
+}
  const dp = readNumber("dp");
  const dc = readNumber("dc");
 
