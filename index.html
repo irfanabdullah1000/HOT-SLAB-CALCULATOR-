@@ -127,102 +127,103 @@ placeholder="Masukkan nomor charge">
 <script>
 let lastResult = null;
 
-function getD(pickup,daughter){
- const constants = {
-  "4":{"1":10008,"2":10009,"3":10008},
-  "3":{"1":10000,"2":10000,"3":10000}
- };
- return constants[pickup][daughter];
+function getD(pickup, daughter) {
+  const constants = {
+    "4": {"1": 10008, "2": 10009, "3": 10008},
+    "3": {"1": 10000, "2": 10000, "3": 10000}
+  };
+  return constants[pickup][daughter];
 }
 
-function readNumber(id){
- const value = document.getElementById(id)
-  .value.trim().replace(",",".");
- if(value === "") return null;
- const number = Number(value);
- return Number.isFinite(number) ? number : null;
+function readNumber(id) {
+  const value = document.getElementById(id)
+    .value.trim().replace(",", ".");
+  if (value === "") return null;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
 }
 
-function formatNumber(number){
- return new Intl.NumberFormat("id-ID",{
-  maximumFractionDigits:2
- }).format(number);
+function formatNumber(number) {
+  return new Intl.NumberFormat("id-ID", {
+    maximumFractionDigits: 2
+  }).format(number);
 }
 
-function calculate(){
- const pickup = document.getElementById("pickup").value;
- const daughter = document.getElementById("daughter").value;
- const charge = document.getElementById("charge").value.trim();
+function calculate() {
+  const charge = document.getElementById("charge").value.trim();
+  const pickup = document.getElementById("pickup").value;
+  const daughter = document.getElementById("daughter").value;
+  const dp = readNumber("dp");
+  const dc = readNumber("dc");
 
-if(charge === ""){
-  alert("Nomor Charge wajib diisi.");
-  return;
-}
- const dp = readNumber("dp");
- const dc = readNumber("dc");
+  if (charge === "") {
+    alert("Nomor Charge wajib diisi.");
+    return;
+  }
 
- if(dp === null || dc === null){
-  alert("DP dan DC wajib diisi dengan angka.");
-  return;
- }
+  if (dp === null || dc === null) {
+    alert("DP dan DC wajib diisi dengan angka.");
+    return;
+  }
 
- if(dp < 0 || dc < 0){
-  alert("DP dan DC tidak boleh negatif.");
-  return;
- }
+  if (dp < 0 || dc < 0) {
+    alert("DP dan DC tidak boleh negatif.");
+    return;
+  }
 
- const D = getD(pickup,daughter);
- const answer = D - (dp + dc);
+  const D = getD(pickup, daughter);
+  const answer = D - (dp + dc);
 
- if(answer < 0){
-  alert("Hasil perhitungan negatif. Periksa kembali DP dan DC.");
-  return;
- }
+  if (answer < 0) {
+    alert("Hasil negatif. Periksa DP dan DC.");
+    return;
+  }
 
- lastResult = {
-  Charge,pickup,daughter,dp,dc,answer
- };
+  lastResult = {
+    charge, pickup, daughter, dp, dc, answer
+  };
 
- document.getElementById("output").textContent =
-  formatNumber(answer) + " mm";
+  document.getElementById("output").textContent =
+    formatNumber(answer) + " mm";
 
- document.getElementById("detail").textContent =
-   "Charge: " + charge +
-   " | Pickup " + pickup +
-   " | Daughter " + daughter;
- document.getElementById("result").style.display = "block";
- document.getElementById("share").style.display = "block";
-}
+  document.getElementById("detail").textContent =
+    "Charge: " + charge +
+    " | Pickup " + pickup +
+    " | Daughter " + daughter;
 
-function shareWhatsApp(){
- if(!lastResult) return;
-
- const r = lastResult;
- const message =
-  "*HOT SLAB LENGTH RESULT*\n\n" +
-  "Charge: " + r.charge + "\n" +
-  "Pickup: " + r.pickup + "\n" +
-  "Daughter: " + r.daughter + "\n" +
-  "DP: " + formatNumber(r.dp) + " mm\n" +
-  "DC: " + formatNumber(r.dc) + " mm\n\n" +
-  "*Hot Slab Length: " +
-  formatNumber(r.answer) + " mm*";
-
- window.open(
-  "https://wa.me/?text=" + encodeURIComponent(message),
-  "_blank"
- );
+  document.getElementById("result").style.display = "block";
+  document.getElementById("share").style.display = "block";
 }
 
-function resetForm(){
- document.getElementById("charge").value = "";
- document.getElementById("pickup").value = "4";
- document.getElementById("daughter").value = "1";
- document.getElementById("dp").value = "";
- document.getElementById("dc").value = "";
- document.getElementById("result").style.display = "none";
- document.getElementById("share").style.display = "none";
- lastResult = null;
+function shareWhatsApp() {
+  if (!lastResult) return;
+  const r = lastResult;
+
+  const message =
+    "*HOT SLAB LENGTH RESULT*\n\n" +
+    "Charge: " + r.charge + "\n" +
+    "Pickup: " + r.pickup + "\n" +
+    "Daughter: " + r.daughter + "\n" +
+    "DP: " + formatNumber(r.dp) + " mm\n" +
+    "DC: " + formatNumber(r.dc) + " mm\n\n" +
+    "*Hot Slab Length: " +
+    formatNumber(r.answer) + " mm*";
+
+  window.open(
+    "https://wa.me/?text=" + encodeURIComponent(message),
+    "_blank"
+  );
+}
+
+function resetForm() {
+  document.getElementById("charge").value = "";
+  document.getElementById("pickup").value = "4";
+  document.getElementById("daughter").value = "1";
+  document.getElementById("dp").value = "";
+  document.getElementById("dc").value = "";
+  document.getElementById("result").style.display = "none";
+  document.getElementById("share").style.display = "none";
+  lastResult = null;
 }
 </script>
  <script>
