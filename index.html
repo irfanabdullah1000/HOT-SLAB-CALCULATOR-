@@ -73,6 +73,7 @@ button{
 .calculate{background:#163b56}
 .reset{background:#64748b}
 .whatsapp{background:#16834b}
+.telegram{background:#229ED9}
 .footer{
  text-align:center;font-size:11px;
  color:#87929d;margin-top:25px;
@@ -165,6 +166,10 @@ button{
  onclick="shareWhatsApp()" style="display:none">
  BAGIKAN KE WHATSAPP
 </button>
+ <button class="telegram" id="shareTelegram"
+ onclick="shareTelegram()" style="display:none">
+ BAGIKAN KE TELEGRAM
+ </button>
 
 <button class="reset" onclick="resetForm()">
  RESET
@@ -279,6 +284,37 @@ function shareWhatsApp(){
    "Hot Slab Length: "+
    formatNumber(d.answer)+" mm\n\n";
  }
+ 
+
+function shareTelegram(){
+
+ if(!lastResult)return;
+
+ const r=lastResult;
+
+ let message=
+  "HOT SLAB LENGTH RESULT\n\n"+
+  "Charge: "+r.charge+"\n"+
+  "Pickup: "+r.pickup+"\n\n";
+
+ for(let i=1;i<=3;i++){
+
+  const d=r.answers[i-1];
+
+  message+=
+   "DAUGHTER "+i+"\n"+
+   "DP: "+formatNumber(d.dp)+" mm\n"+
+   "DC: "+formatNumber(d.dc)+" mm\n"+
+   "Hot Slab Length: "+
+   formatNumber(d.answer)+" mm\n\n";
+ }
+
+ const url=
+  "https://t.me/share/url?url=&text="+
+  encodeURIComponent(message);
+
+ window.open(url,"_blank");
+}
 
  window.open(
   "https://wa.me/?text="+encodeURIComponent(message),
