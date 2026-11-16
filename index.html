@@ -5,40 +5,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#163b56">
- <link rel="manifest" href="./manifest.json">
+<link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
- 
+
 <title>Hot Slab Length Calculator</title>
+
 <style>
 *{box-sizing:border-box}
+
 body{
  margin:0;padding:20px;
  background:#eef2f5;
- font-family:Arial,sans-serif;color:#243447;
+ font-family:Arial,sans-serif;
+ color:#243447;
 }
+
 .container{
- max-width:450px;margin:20px auto;
+ max-width:550px;margin:20px auto;
  background:white;padding:24px;
  border-radius:18px;
  box-shadow:0 5px 20px #0001;
 }
+
 .header{
  background:#163b56;color:white;
- padding:23px 12px;border-radius:13px;
- text-align:center;margin-bottom:24px;
+ padding:23px 12px;
+ border-radius:13px;
+ text-align:center;
+ margin-bottom:24px;
 }
+
 .header h2{margin:0;font-size:22px}
 .header p{font-size:12px;margin:8px 0 0}
+
 label{
  display:block;font-weight:bold;
  margin:17px 0 8px;
 }
+
 select,input{
  width:100%;padding:14px;
  border:1px solid #cbd5df;
  border-radius:9px;font-size:16px;
  background:white;
 }
+
 button{
  width:100%;padding:15px;
  border:0;border-radius:9px;
@@ -46,37 +57,87 @@ button{
  font-weight:bold;margin-top:16px;
  cursor:pointer;
 }
+
 .calculate{background:#163b56}
 .reset{background:#64748b}
 .whatsapp{background:#16834b}
+
 .result{
- display:none;margin-top:22px;
+ display:none;
+ margin-top:22px;
  background:#e9f6ee;
- padding:20px;border-radius:12px;
+ padding:16px;
+ border-radius:12px;
+}
+
+.result-title{
  text-align:center;
+ font-weight:bold;
+ margin-bottom:15px;
 }
-.result h1{
- color:#16834b;font-size:34px;
- margin:12px 0;
+
+.result-grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:8px;
 }
-.result p{margin:5px;font-size:13px}
+
+.result-card{
+ background:white;
+ padding:12px 5px;
+ border-radius:10px;
+ text-align:center;
+ border:1px solid #d5e9dc;
+ min-width:0;
+}
+
+.result-card h4{
+ font-size:12px;
+ margin:0 0 12px;
+ color:#243447;
+}
+
+.result-card h2{
+ color:#16834b;
+ font-size:clamp(16px,4vw,23px);
+ margin:0;
+ overflow-wrap:anywhere;
+}
+
+.result-card p{
+ font-size:11px;
+ margin:8px 0 0;
+ color:#64748b;
+}
+
 .footer{
- text-align:center;font-size:11px;
- color:#87929d;margin-top:25px;
+ text-align:center;
+ font-size:11px;
+ color:#87929d;
+ margin-top:25px;
+}
+
+@media(max-width:360px){
+ .container{padding:15px}
+ .result-grid{gap:5px}
+ .result-card{padding:10px 3px}
+ .result-card h4{font-size:10px}
 }
 </style>
 </head>
+
 <body>
+
 <div class="container">
 
  <div class="header">
   <h2>HOT SLAB LENGTH</h2>
   <p>PRODUCTION CALCULATOR</p>
  </div>
+
  <label for="charge">NOMOR CHARGE</label>
-<input id="charge" type="text"
-placeholder="Masukkan nomor charge">
- 
+ <input id="charge" type="text"
+ placeholder="Masukkan nomor charge">
 
  <label for="pickup">PICKUP</label>
  <select id="pickup">
@@ -84,29 +145,52 @@ placeholder="Masukkan nomor charge">
   <option value="3">Pickup 3</option>
  </select>
 
- <label for="daughter">DAUGHTER</label>
- <select id="daughter">
-  <option value="1">Daughter 1</option>
-  <option value="2">Daughter 2</option>
-  <option value="3">Daughter 3</option>
- </select>
-
  <label for="dp">DP (mm)</label>
- <input id="dp" type="text" inputmode="decimal"
+ <input id="dp" type="text"
+ inputmode="decimal"
  placeholder="Masukkan nilai DP">
 
  <label for="dc">DC (mm)</label>
- <input id="dc" type="text" inputmode="decimal"
+ <input id="dc" type="text"
+ inputmode="decimal"
  placeholder="Masukkan nilai DC">
 
  <button class="calculate" onclick="calculate()">
-  HITUNG HOT SLAB LENGTH
+  HITUNG SEMUA DAUGHTER
  </button>
 
  <div class="result" id="result">
-  <p>HASIL HOT SLAB LENGTH</p>
-  <h1 id="output">0 mm</h1>
-  <p id="detail"></p>
+
+  <div class="result-title">
+   HASIL HOT SLAB LENGTH
+  </div>
+
+  <div class="result-grid">
+
+   <div class="result-card">
+    <h4>DAUGHTER 1</h4>
+    <h2 id="output1">0</h2>
+    <p>mm</p>
+   </div>
+
+   <div class="result-card">
+    <h4>DAUGHTER 2</h4>
+    <h2 id="output2">0</h2>
+    <p>mm</p>
+   </div>
+
+   <div class="result-card">
+    <h4>DAUGHTER 3</h4>
+    <h2 id="output3">0</h2>
+    <p>mm</p>
+   </div>
+
+  </div>
+
+  <p id="detail"
+  style="text-align:center;font-size:12px;margin-top:15px;">
+  </p>
+
  </div>
 
  <button class="whatsapp" id="share"
@@ -122,137 +206,204 @@ placeholder="Masukkan nomor charge">
   HOT SLAB LENGTH CALCULATOR
   <br>Production Tool
  </div>
+
 </div>
 
 <script>
+
 let lastResult = null;
 
 function getD(pickup, daughter) {
-  const constants = {
-    "4": {"1": 10008, "2": 10009, "3": 10008},
-    "3": {"1": 10000, "2": 10000, "3": 10000}
-  };
-  return constants[pickup][daughter];
+
+ const constants = {
+  "4": {
+   "1": 10008,
+   "2": 10009,
+   "3": 10008
+  },
+  "3": {
+   "1": 10000,
+   "2": 10000,
+   "3": 10000
+  }
+ };
+
+ return constants[pickup][daughter];
 }
 
 function readNumber(id) {
-  const value = document.getElementById(id)
-    .value.trim().replace(",", ".");
-  if (value === "") return null;
-  const number = Number(value);
-  return Number.isFinite(number) ? number : null;
+
+ const value = document.getElementById(id)
+  .value.trim().replace(",", ".");
+
+ if(value === "") return null;
+
+ const number = Number(value);
+
+ return Number.isFinite(number) ? number : null;
 }
 
 function formatNumber(number) {
-  return new Intl.NumberFormat("id-ID", {
-    maximumFractionDigits: 2
-  }).format(number);
+
+ return new Intl.NumberFormat("id-ID", {
+  maximumFractionDigits: 2
+ }).format(number);
+
 }
 
 function calculate() {
-  const charge = document.getElementById("charge").value.trim();
-  const pickup = document.getElementById("pickup").value;
-  const daughter = document.getElementById("daughter").value;
-  const dp = readNumber("dp");
-  const dc = readNumber("dc");
 
-  if (charge === "") {
-    alert("Nomor Charge wajib diisi.");
-    return;
-  }
+ const charge =
+  document.getElementById("charge").value.trim();
 
-  if (dp === null || dc === null) {
-    alert("DP dan DC wajib diisi dengan angka.");
-    return;
-  }
+ const pickup =
+  document.getElementById("pickup").value;
 
-  if (dp < 0 || dc < 0) {
-    alert("DP dan DC tidak boleh negatif.");
-    return;
-  }
+ const dp = readNumber("dp");
+ const dc = readNumber("dc");
 
-  const D = getD(pickup, daughter);
+ if(charge === "") {
+  alert("Nomor Charge wajib diisi.");
+  return;
+ }
+
+ if(dp === null || dc === null) {
+  alert("DP dan DC wajib diisi dengan angka.");
+  return;
+ }
+
+ if(dp < 0 || dc < 0) {
+  alert("DP dan DC tidak boleh negatif.");
+  return;
+ }
+
+ let answers = [];
+
+ for(let i = 1; i <= 3; i++) {
+
+  const D = getD(pickup, String(i));
+
   const answer = D - (dp + dc);
 
-  if (answer < 0) {
-    alert("Hasil negatif. Periksa DP dan DC.");
-    return;
+  if(answer < 0) {
+   alert("Hasil Daughter " + i +
+    " negatif. Periksa DP dan DC.");
+   return;
   }
 
-  lastResult = {
-    charge, pickup, daughter, dp, dc, answer
-  };
+  answers.push(answer);
 
-  document.getElementById("output").textContent =
-    formatNumber(answer) + " mm";
+ }
 
-  document.getElementById("detail").textContent =
-    "Charge: " + charge +
-    " | Pickup " + pickup +
-    " | Daughter " + daughter;
+ lastResult = {
+  charge,
+  pickup,
+  dp,
+  dc,
+  answers
+ };
 
-  document.getElementById("result").style.display = "block";
-  document.getElementById("share").style.display = "block";
+ document.getElementById("output1").textContent =
+  formatNumber(answers[0]);
+
+ document.getElementById("output2").textContent =
+  formatNumber(answers[1]);
+
+ document.getElementById("output3").textContent =
+  formatNumber(answers[2]);
+
+ document.getElementById("detail").textContent =
+  "Charge: " + charge +
+  " | Pickup " + pickup +
+  " | DP: " + formatNumber(dp) +
+  " | DC: " + formatNumber(dc);
+
+ document.getElementById("result").style.display =
+  "block";
+
+ document.getElementById("share").style.display =
+  "block";
+
 }
 
 function shareWhatsApp() {
-  if (!lastResult) return;
-  const r = lastResult;
 
-  const message =
-    "*HOT SLAB LENGTH RESULT*\n\n" +
-    "Charge: " + r.charge + "\n" +
-    "Pickup: " + r.pickup + "\n" +
-    "Daughter: " + r.daughter + "\n" +
-    "DP: " + formatNumber(r.dp) + " mm\n" +
-    "DC: " + formatNumber(r.dc) + " mm\n\n" +
-    "*Hot Slab Length: " +
-    formatNumber(r.answer) + " mm*";
+ if(!lastResult) return;
 
-  window.open(
-    "https://wa.me/?text=" + encodeURIComponent(message),
-    "_blank"
-  );
+ const r = lastResult;
+
+ const message =
+  "*HOT SLAB LENGTH RESULT*\n\n" +
+  "Charge: " + r.charge + "\n" +
+  "Pickup: " + r.pickup + "\n" +
+  "DP: " + formatNumber(r.dp) + " mm\n" +
+  "DC: " + formatNumber(r.dc) + " mm\n\n" +
+
+  "*Daughter 1: " +
+  formatNumber(r.answers[0]) + " mm*\n" +
+
+  "*Daughter 2: " +
+  formatNumber(r.answers[1]) + " mm*\n" +
+
+  "*Daughter 3: " +
+  formatNumber(r.answers[2]) + " mm*";
+
+ window.open(
+  "https://wa.me/?text=" +
+  encodeURIComponent(message),
+  "_blank"
+ );
+
 }
 
 function resetForm() {
-  document.getElementById("charge").value = "";
-  document.getElementById("pickup").value = "4";
-  document.getElementById("daughter").value = "1";
-  document.getElementById("dp").value = "";
-  document.getElementById("dc").value = "";
-  document.getElementById("result").style.display = "none";
-  document.getElementById("share").style.display = "none";
-  lastResult = null;
+
+ document.getElementById("charge").value = "";
+ document.getElementById("pickup").value = "4";
+ document.getElementById("dp").value = "";
+ document.getElementById("dc").value = "";
+
+ document.getElementById("result").style.display =
+  "none";
+
+ document.getElementById("share").style.display =
+  "none";
+
+ lastResult = null;
+
 }
+
 </script>
- <script>
+
+<script>
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js")
-      .then(registration => {
-        console.log("Offline siap:", registration.scope);
-      })
-      .catch(error => {
-        console.error("Service Worker gagal:", error);
-      });
-  });
+ window.addEventListener("load", () => {
+  navigator.serviceWorker.register("./service-worker.js")
+   .then(registration => {
+    console.log("Offline siap:", registration.scope);
+   })
+   .catch(error => {
+    console.error("Service Worker gagal:", error);
+   });
+ });
 }
 </script>
- <footer style="
-  text-align:center;
-  padding:20px 10px;
-  margin-top:25px;
-  color:#64748b;
-  font-size:13px;
+
+<footer style="
+ text-align:center;
+ padding:20px 10px;
+ margin-top:25px;
+ color:#64748b;
+ font-size:13px;
 ">
-  <div>Developed by</div>
-  <strong style="color:#163b56;">
-    Irfan Abdullah
-  </strong>
-  <div style="margin-top:5px;">
-    © 2026 Hot Slab Length Calculator
-  </div>
- </footer>
+ <div>Developed by</div>
+ <strong style="color:#163b56;">
+  Irfan Abdullah
+ </strong>
+ <div style="margin-top:5px;">
+  © 2026 Hot Slab Length Calculator
+ </div>
+</footer>
+
 </body>
 </html>
