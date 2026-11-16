@@ -1,369 +1,141 @@
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#163b56">
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./icon.svg" type="image/svg+xml">
-<title>Hot Slab Length Calculator</title>
-
-<style>
-*{box-sizing:border-box}
-body{
- margin:0;padding:16px;
- background:#eef2f5;
- font-family:Arial,sans-serif;color:#243447;
-}
-.container{
- max-width:650px;margin:15px auto;
- background:white;padding:22px;
- border-radius:18px;
- box-shadow:0 5px 20px #0001;
-}
-.header{
- background:#163b56;color:white;
- padding:23px 12px;border-radius:13px;
- text-align:center;margin-bottom:22px;
-}
-.header h2{margin:0;font-size:22px}
-.header p{font-size:12px;margin:8px 0 0}
-label{
- display:block;font-weight:bold;
- margin:14px 0 7px;
-}
-select,input{
- width:100%;padding:13px;
- border:1px solid #cbd5df;
- border-radius:9px;font-size:16px;
- background:white;
-}
-.daughter-list{
- display:grid;
- grid-template-columns:1fr;
- gap:14px;margin-top:20px;
-}
-.daughter-card{
- border:1px solid #cbd5df;
- border-radius:12px;padding:16px;
- background:#f8fafc;
-}
-.daughter-card h3{
- margin:0 0 12px;
- color:#163b56;font-size:18px;
-}
-.result{
- display:none;margin-top:14px;
- background:#e9f6ee;
- padding:12px;border-radius:9px;
- text-align:center;
-}
-.result strong{
- display:block;color:#16834b;
- font-size:25px;margin-top:5px;
-}
-button{
- width:100%;padding:15px;
- border:0;border-radius:9px;
- color:white;font-size:16px;
- font-weight:bold;margin-top:16px;
- cursor:pointer;
-}
-.calculate{background:#163b56}
-.reset{background:#64748b}
-.whatsapp{background:#16834b}
-.telegram{background:#229ED9}
-.footer{
- text-align:center;font-size:11px;
- color:#87929d;margin-top:25px;
-}
-@media(min-width:600px){
- .daughter-list{
-  grid-template-columns:repeat(3,1fr);
- }
- .daughter-card{padding:12px}
- .daughter-card h3{font-size:16px}
-}
-</style>
-</head>
-
-<body>
-<div class="container">
-
-<div class="header">
- <h2>HOT SLAB LENGTH</h2>
- <p>PRODUCTION CALCULATOR</p>
-</div>
-
-<label for="charge">NOMOR CHARGE</label>
-<input id="charge" type="text"
- placeholder="Masukkan nomor charge">
-
-<label for="pickup">PICKUP</label>
-<select id="pickup">
- <option value="4">Pickup 4</option>
- <option value="3">Pickup 3</option>
-</select>
-
-<div class="daughter-list">
-
- <div class="daughter-card">
-  <h3>DAUGHTER 1</h3>
-  <label for="dp1">DP (mm)</label>
-  <input id="dp1" type="text" inputmode="decimal"
-   placeholder="DP Daughter 1">
-
-  <label for="dc1">DC (mm)</label>
-  <input id="dc1" type="text" inputmode="decimal"
-   placeholder="DC Daughter 1">
-
-  <div class="result" id="result1">
-   HASIL HOT SLAB LENGTH
-   <strong id="output1">0 mm</strong>
-  </div>
- </div>
-
- <div class="daughter-card">
-  <h3>DAUGHTER 2</h3>
-  <label for="dp2">DP (mm)</label>
-  <input id="dp2" type="text" inputmode="decimal"
-   placeholder="DP Daughter 2">
-
-  <label for="dc2">DC (mm)</label>
-  <input id="dc2" type="text" inputmode="decimal"
-   placeholder="DC Daughter 2">
-
-  <div class="result" id="result2">
-   HASIL HOT SLAB LENGTH
-   <strong id="output2">0 mm</strong>
-  </div>
- </div>
-
- <div class="daughter-card">
-  <h3>DAUGHTER 3</h3>
-  <label for="dp3">DP (mm)</label>
-  <input id="dp3" type="text" inputmode="decimal"
-   placeholder="DP Daughter 3">
-
-  <label for="dc3">DC (mm)</label>
-  <input id="dc3" type="text" inputmode="decimal"
-   placeholder="DC Daughter 3">
-
-  <div class="result" id="result3">
-   HASIL HOT SLAB LENGTH
-   <strong id="output3">0 mm</strong>
-  </div>
- </div>
-
-</div>
-
-<button class="calculate" onclick="calculate()">
- HITUNG SEMUA DAUGHTER
-</button>
-
-<button class="whatsapp" id="share"
- onclick="shareWhatsApp()" style="display:none">
- BAGIKAN KE WHATSAPP
-</button>
- <button class="telegram" id="shareTelegram"
- onclick="shareTelegram()" style="display:none">
- BAGIKAN KE TELEGRAM
- </button>
-
-<button class="reset" onclick="resetForm()">
- RESET
-</button>
-
-<div class="footer">
- HOT SLAB LENGTH CALCULATOR
- <br>Production Tool
-</div>
-
-</div>
-
-<script>
 let lastResult = null;
 
-function getD(pickup,daughter){
+function getD(pickup, daughter) {
  const constants = {
-  "4":{"1":10008,"2":10009,"3":10008},
-  "3":{"1":10000,"2":10000,"3":10000}
+  "4": {"1":10008, "2":10009, "3":10008},
+  "3": {"1":10000, "2":10000, "3":10000}
  };
  return constants[pickup][daughter];
 }
 
-function readNumber(id){
- const value=document.getElementById(id)
-  .value.trim().replace(",",".");
- if(value==="") return null;
- const number=Number(value);
- return Number.isFinite(number)?number:null;
+function readNumber(id) {
+ const value = document.getElementById(id)
+  .value.trim().replace(",", ".");
+ if (value === "") return null;
+ const number = Number(value);
+ return Number.isFinite(number) ? number : null;
 }
 
-function formatNumber(number){
- return new Intl.NumberFormat("id-ID",{
-  maximumFractionDigits:2
+function formatNumber(number) {
+ return new Intl.NumberFormat("id-ID", {
+  maximumFractionDigits: 2
  }).format(number);
 }
 
-function calculate(){
+function calculate() {
+ const charge = document.getElementById("charge").value.trim();
+ const pickup = document.getElementById("pickup").value;
 
- const charge=document.getElementById("charge")
-  .value.trim();
- const pickup=document.getElementById("pickup").value;
-
- if(charge===""){
+ if (charge === "") {
   alert("Nomor Charge wajib diisi.");
   return;
  }
 
- const answers=[];
+ const answers = [];
 
- for(let i=1;i<=3;i++){
+ for (let i = 1; i <= 3; i++) {
+  const dp = readNumber("dp" + i);
+  const dc = readNumber("dc" + i);
 
-  const dp=readNumber("dp"+i);
-  const dc=readNumber("dc"+i);
-
-  if(dp===null||dc===null){
-   alert("DP dan DC Daughter "+i+
-    " wajib diisi dengan angka.");
+  if (dp === null || dc === null) {
+   alert("DP dan DC Daughter " + i + " wajib diisi dengan angka.");
    return;
   }
 
-  if(dp<0||dc<0){
-   alert("DP dan DC Daughter "+i+
-    " tidak boleh negatif.");
+  if (dp < 0 || dc < 0) {
+   alert("DP dan DC Daughter " + i + " tidak boleh negatif.");
    return;
   }
 
-  const D=getD(pickup,String(i));
-  const answer=D-(dp+dc);
+  const D = getD(pickup, String(i));
+  const answer = D - (dp + dc);
 
-  if(answer<0){
-   alert("Hasil Daughter "+i+
-    " negatif. Periksa DP dan DC.");
+  if (answer < 0) {
+   alert("Hasil Daughter " + i + " negatif. Periksa DP dan DC.");
    return;
   }
 
-  answers.push({dp,dc,answer});
+  answers.push({dp, dc, answer});
  }
 
- lastResult={charge,pickup,answers};
+ lastResult = {charge, pickup, answers};
 
- for(let i=1;i<=3;i++){
-  document.getElementById("output"+i).textContent=
-   formatNumber(answers[i-1].answer)+" mm";
+ for (let i = 1; i <= 3; i++) {
+  document.getElementById("output" + i).textContent =
+   formatNumber(answers[i - 1].answer) + " mm";
 
-  document.getElementById("result"+i).style.display=
-   "block";
+  document.getElementById("result" + i).style.display = "block";
  }
 
- document.getElementById("share").style.display=
-  "block";
- document.getElementById("shareTelegram").style.display=
-  "block";
+ document.getElementById("share").style.display = "block";
+ document.getElementById("shareTelegram").style.display = "block";
 }
 
-function shareWhatsApp(){
+function createShareMessage() {
+ if (!lastResult) return "";
 
- if(!lastResult)return;
+ const r = lastResult;
 
- const r=lastResult;
+ let message =
+  "HOT SLAB LENGTH RESULT\n\n" +
+  "Charge: " + r.charge + "\n" +
+  "Pickup: " + r.pickup + "\n\n";
 
- let message=
-  "*HOT SLAB LENGTH RESULT*\n\n"+
-  "Charge: "+r.charge+"\n"+
-  "Pickup: "+r.pickup+"\n\n";
+ for (let i = 1; i <= 3; i++) {
+  const d = r.answers[i - 1];
 
- for(let i=1;i<=3;i++){
-  const d=r.answers[i-1];
-
-  message+=
-   "*DAUGHTER "+i+"*\n"+
-   "DP: "+formatNumber(d.dp)+" mm\n"+
-   "DC: "+formatNumber(d.dc)+" mm\n"+
-   "Hot Slab Length: "+
-   formatNumber(d.answer)+" mm\n\n";
- }
- 
-
-function shareTelegram(){
-
- if(!lastResult)return;
-
- const r=lastResult;
-
- let message=
-  "HOT SLAB LENGTH RESULT\n\n"+
-  "Charge: "+r.charge+"\n"+
-  "Pickup: "+r.pickup+"\n\n";
-
- for(let i=1;i<=3;i++){
-
-  const d=r.answers[i-1];
-
-  message+=
-   "DAUGHTER "+i+"\n"+
-   "DP: "+formatNumber(d.dp)+" mm\n"+
-   "DC: "+formatNumber(d.dc)+" mm\n"+
-   "Hot Slab Length: "+
-   formatNumber(d.answer)+" mm\n\n";
+  message +=
+   "DAUGHTER " + i + "\n" +
+   "DP: " + formatNumber(d.dp) + " mm\n" +
+   "DC: " + formatNumber(d.dc) + " mm\n" +
+   "Hot Slab Length: " + formatNumber(d.answer) + " mm\n\n";
  }
 
- const url=
-  "https://t.me/share/url?url=&text="+
-  encodeURIComponent(message);
-
- window.open(url,"_blank");
+ return message;
 }
+
+function shareWhatsApp() {
+ if (!lastResult) {
+  alert("Silakan hitung terlebih dahulu.");
+  return;
+ }
+
+ const message = createShareMessage();
 
  window.open(
-  "https://wa.me/?text="+encodeURIComponent(message),
+  "https://wa.me/?text=" + encodeURIComponent(message),
   "_blank"
  );
 }
 
-function resetForm(){
-
- document.getElementById("charge").value="";
- document.getElementById("pickup").value="4";
-
- for(let i=1;i<=3;i++){
-  document.getElementById("dp"+i).value="";
-  document.getElementById("dc"+i).value="";
-  document.getElementById("result"+i).style.display="none";
+function shareTelegram() {
+ if (!lastResult) {
+  alert("Silakan hitung terlebih dahulu.");
+  return;
  }
 
- document.getElementById("share").style.display="none";
- document.getElementById("shareTelegram").style.display="none";
- lastResult=null;
+ const message = createShareMessage();
+
+ const url =
+  "https://t.me/share/url?url=" +
+  "&text=" + encodeURIComponent(message);
+
+ window.open(url, "_blank");
 }
-</script>
 
-<script>
-if("serviceWorker" in navigator){
- window.addEventListener("load",()=>{
-  navigator.serviceWorker.register("./service-worker.js")
-   .then(registration=>{
-    console.log("Offline siap:",registration.scope);
-   })
-   .catch(error=>{
-    console.error("Service Worker gagal:",error);
-   });
- });
+function resetForm() {
+ document.getElementById("charge").value = "";
+ document.getElementById("pickup").value = "4";
+
+ for (let i = 1; i <= 3; i++) {
+  document.getElementById("dp" + i).value = "";
+  document.getElementById("dc" + i).value = "";
+  document.getElementById("result" + i).style.display = "none";
+ }
+
+ document.getElementById("share").style.display = "none";
+ document.getElementById("shareTelegram").style.display = "none";
+
+ lastResult = null;
 }
-</script>
-
-<footer style="
- text-align:center;padding:20px 10px;
- margin-top:25px;color:#64748b;font-size:13px;">
- <div>Developed by</div>
- <strong style="color:#163b56;">Irfan Abdullah</strong>
- <div style="margin-top:5px;">
-  © 2026 Hot Slab Length Calculator
- </div>
-</footer>
-
-</body>
-</html>
