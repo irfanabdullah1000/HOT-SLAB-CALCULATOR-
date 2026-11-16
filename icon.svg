@@ -1,0 +1,11 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="100" fill="#163b56"/>
+  <path d="M100 150 H412 V362 H100 Z" fill="#ffffff"/>
+  <path d="M130 195 H382 M130 250 H382 M130 305 H382"
+        stroke="#16834b" stroke-width="18"/>
+  <text x="256" y="430" text-anchor="middle"
+        font-size="52" font-weight="bold" fill="#ffffff">
+    SLAB
+  </text>
+</svg>
