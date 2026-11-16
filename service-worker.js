@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "hot-slab-cache-v9";
+const CACHE_NAME = "hot-slab-cache-v10";
 
 const FILES_TO_CACHE = [
   "./",
