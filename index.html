@@ -1,141 +1,524 @@
 
-let lastResult = null;
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#163b56">
+
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+
+<title>Hot Slab Length Calculator</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 15px;
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+header {
+  background: #163b56;
+  color: white;
+  padding: 22px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+header p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 13px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px #00000010;
+}
+
+h2 {
+  font-size: 17px;
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 12px;
+  background: white;
+}
+
+.daughter {
+  border: 1px solid #dbe3ec;
+  padding: 13px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.daughter h3 {
+  margin: 0 0 12px;
+  color: #163b56;
+  font-size: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+button {
+  width: 100%;
+  border: none;
+  border-radius: 9px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 7px;
+}
+
+.calculate {
+  background: #163b56;
+  color: white;
+}
+
+.whatsapp {
+  background: #16a34a;
+  color: white;
+}
+
+.telegram {
+  background: #229ed9;
+  color: white;
+}
+
+.reset {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.result-card {
+  background: #ecfdf5;
+  border-left: 4px solid #16a34a;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.result-number {
+  font-size: 23px;
+  font-weight: bold;
+  color: #166534;
+  margin-top: 5px;
+}
+
+.result-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+footer {
+  text-align: center;
+  color: #64748b;
+  font-size: 12px;
+  padding: 15px;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <h1>Hot Slab Length Calculator</h1>
+  <p>Production Calculation System</p>
+</header>
+
+<section class="card">
+
+  <h2>Charge Information</h2>
+
+  <label for="charge">Charge Number</label>
+  <input
+    type="text"
+    id="charge"
+    placeholder="Masukkan nomor charge"
+  >
+
+  <label for="pickup">Pickup</label>
+  <select id="pickup">
+    <option value="4">Pickup 4</option>
+    <option value="3">Pickup 3</option>
+  </select>
+
+</section>
+
+<section class="card">
+
+  <h2>Input Data Daughter</h2>
+
+  <div class="daughter">
+    <h3>Daughter 1</h3>
+
+    <div class="grid">
+      <div>
+        <label for="dp1">DP 1</label>
+        <input id="dp1" type="number" inputmode="decimal"
+          placeholder="Input DP">
+      </div>
+
+      <div>
+        <label for="dc1">DC 1</label>
+        <input id="dc1" type="number" inputmode="decimal"
+          placeholder="Input DC">
+      </div>
+    </div>
+  </div>
+
+  <div class="daughter">
+    <h3>Daughter 2</h3>
+
+    <div class="grid">
+      <div>
+        <label for="dp2">DP 2</label>
+        <input id="dp2" type="number" inputmode="decimal"
+          placeholder="Input DP">
+      </div>
+
+      <div>
+        <label for="dc2">DC 2</label>
+        <input id="dc2" type="number" inputmode="decimal"
+          placeholder="Input DC">
+      </div>
+    </div>
+  </div>
+
+  <div class="daughter">
+    <h3>Daughter 3</h3>
+
+    <div class="grid">
+      <div>
+        <label for="dp3">DP 3</label>
+        <input id="dp3" type="number" inputmode="decimal"
+          placeholder="Input DP">
+      </div>
+
+      <div>
+        <label for="dc3">DC 3</label>
+        <input id="dc3" type="number" inputmode="decimal"
+          placeholder="Input DC">
+      </div>
+    </div>
+  </div>
+
+  <button class="calculate" onclick="calculateAll()">
+    CALCULATE
+  </button>
+
+  <button class="reset" onclick="resetApp()">
+    RESET
+  </button>
+
+</section>
+
+<section class="card hidden" id="resultSection">
+
+  <h2>Calculation Results</h2>
+
+  <div id="results"></div>
+
+  <button class="whatsapp" onclick="shareWhatsApp()">
+    BAGIKAN KE WHATSAPP
+  </button>
+
+  <button class="telegram" onclick="shareTelegram()">
+    BAGIKAN KE TELEGRAM
+  </button>
+
+</section>
+
+<footer>
+  Developed by Irfan Abdullah
+  <br>
+  Hot Slab Length Calculator
+</footer>
+
+</div>
+
+<script>
+
+let calculationResults = [];
 
 function getD(pickup, daughter) {
- const constants = {
-  "4": {"1":10008, "2":10009, "3":10008},
-  "3": {"1":10000, "2":10000, "3":10000}
- };
- return constants[pickup][daughter];
-}
 
-function readNumber(id) {
- const value = document.getElementById(id)
-  .value.trim().replace(",", ".");
- if (value === "") return null;
- const number = Number(value);
- return Number.isFinite(number) ? number : null;
-}
+  if (pickup === "4") {
+    const values = {
+      1: 10008,
+      2: 10009,
+      3: 10008
+    };
 
-function formatNumber(number) {
- return new Intl.NumberFormat("id-ID", {
-  maximumFractionDigits: 2
- }).format(number);
-}
-
-function calculate() {
- const charge = document.getElementById("charge").value.trim();
- const pickup = document.getElementById("pickup").value;
-
- if (charge === "") {
-  alert("Nomor Charge wajib diisi.");
-  return;
- }
-
- const answers = [];
-
- for (let i = 1; i <= 3; i++) {
-  const dp = readNumber("dp" + i);
-  const dc = readNumber("dc" + i);
-
-  if (dp === null || dc === null) {
-   alert("DP dan DC Daughter " + i + " wajib diisi dengan angka.");
-   return;
+    return values[daughter];
   }
 
-  if (dp < 0 || dc < 0) {
-   alert("DP dan DC Daughter " + i + " tidak boleh negatif.");
-   return;
+  if (pickup === "3") {
+    return 10000;
   }
 
-  const D = getD(pickup, String(i));
-  const answer = D - (dp + dc);
+  return null;
+}
 
-  if (answer < 0) {
-   alert("Hasil Daughter " + i + " negatif. Periksa DP dan DC.");
-   return;
+function calculateAll() {
+
+  const charge =
+    document.getElementById("charge").value.trim();
+
+  const pickup =
+    document.getElementById("pickup").value;
+
+  if (!charge) {
+    alert("Masukkan Charge Number terlebih dahulu.");
+    return;
   }
 
-  answers.push({dp, dc, answer});
- }
+  const results = [];
 
- lastResult = {charge, pickup, answers};
+  for (let i = 1; i <= 3; i++) {
 
- for (let i = 1; i <= 3; i++) {
-  document.getElementById("output" + i).textContent =
-   formatNumber(answers[i - 1].answer) + " mm";
+    const dpValue =
+      document.getElementById("dp" + i).value.trim();
 
-  document.getElementById("result" + i).style.display = "block";
- }
+    const dcValue =
+      document.getElementById("dc" + i).value.trim();
 
- document.getElementById("share").style.display = "block";
- document.getElementById("shareTelegram").style.display = "block";
+    if (dpValue === "" || dcValue === "") {
+      alert("Lengkapi DP dan DC Daughter " + i);
+      return;
+    }
+
+    const dp = Number(dpValue);
+    const dc = Number(dcValue);
+
+    if (
+      !Number.isFinite(dp) ||
+      !Number.isFinite(dc) ||
+      dp < 0 ||
+      dc < 0
+    ) {
+      alert("DP dan DC harus berupa angka valid.");
+      return;
+    }
+
+    const D = getD(pickup, i);
+
+    const length = D - (dp + dc);
+
+    if (length < 0) {
+      alert("Hasil Daughter " + i + " negatif. Periksa input.");
+      return;
+    }
+
+    results.push({
+      daughter: i,
+      dp: dp,
+      dc: dc,
+      length: length
+    });
+
+  }
+
+  calculationResults = results;
+
+  displayResults(charge, pickup, results);
+
+}
+
+function formatNumber(value) {
+
+  return Number.isInteger(value)
+    ? value.toString()
+    : value.toLocaleString("en-US", {
+        maximumFractionDigits: 4
+      });
+
+}
+
+function displayResults(charge, pickup, results) {
+
+  let html = "";
+
+  results.forEach(function(item) {
+
+    html += `
+      <div class="result-card">
+
+        <div class="result-title">
+          Daughter ${item.daughter}
+        </div>
+
+        <div class="result-number">
+          ${formatNumber(item.length)}
+        </div>
+
+        <div>
+          DP: ${formatNumber(item.dp)}
+        </div>
+
+        <div>
+          DC: ${formatNumber(item.dc)}
+        </div>
+
+      </div>
+    `;
+
+  });
+
+  document.getElementById("results").innerHTML = html;
+
+  document.getElementById("resultSection")
+    .classList.remove("hidden");
+
 }
 
 function createShareMessage() {
- if (!lastResult) return "";
 
- const r = lastResult;
+  const charge =
+    document.getElementById("charge").value.trim();
 
- let message =
-  "HOT SLAB LENGTH RESULT\n\n" +
-  "Charge: " + r.charge + "\n" +
-  "Pickup: " + r.pickup + "\n\n";
+  const pickup =
+    document.getElementById("pickup").value;
 
- for (let i = 1; i <= 3; i++) {
-  const d = r.answers[i - 1];
+  let message = "";
 
-  message +=
-   "DAUGHTER " + i + "\n" +
-   "DP: " + formatNumber(d.dp) + " mm\n" +
-   "DC: " + formatNumber(d.dc) + " mm\n" +
-   "Hot Slab Length: " + formatNumber(d.answer) + " mm\n\n";
- }
+  message += "HOT SLAB LENGTH CALCULATION\n";
+  message += "----------------------------\n";
+  message += "Charge Number: " + charge + "\n";
+  message += "Pickup: " + pickup + "\n\n";
 
- return message;
+  calculationResults.forEach(function(item) {
+
+    message += "Daughter " + item.daughter + "\n";
+
+    message += "DP: " +
+      formatNumber(item.dp) + "\n";
+
+    message += "DC: " +
+      formatNumber(item.dc) + "\n";
+
+    message += "Hot Slab Length: " +
+      formatNumber(item.length) + "\n\n";
+
+  });
+
+  message += "Developed by Irfan Abdullah";
+
+  return message;
+
 }
 
 function shareWhatsApp() {
- if (!lastResult) {
-  alert("Silakan hitung terlebih dahulu.");
-  return;
- }
 
- const message = createShareMessage();
+  if (calculationResults.length !== 3) {
+    alert("Silakan lakukan Calculate terlebih dahulu.");
+    return;
+  }
 
- window.open(
-  "https://wa.me/?text=" + encodeURIComponent(message),
-  "_blank"
- );
+  const message = createShareMessage();
+
+  const url =
+    "https://wa.me/?text=" +
+    encodeURIComponent(message);
+
+  window.open(url, "_blank");
+
 }
 
 function shareTelegram() {
- if (!lastResult) {
-  alert("Silakan hitung terlebih dahulu.");
-  return;
- }
 
- const message = createShareMessage();
+  if (calculationResults.length !== 3) {
+    alert("Silakan lakukan Calculate terlebih dahulu.");
+    return;
+  }
 
- const url =
-  "https://t.me/share/url?url=" +
-  "&text=" + encodeURIComponent(message);
+  window.location.href =
+    "https://t.me/share/url?url=&text=" +
+    encodeURIComponent(createShareMessage());
 
- window.open(url, "_blank");
 }
 
-function resetForm() {
- document.getElementById("charge").value = "";
- document.getElementById("pickup").value = "4";
+function resetApp() {
 
- for (let i = 1; i <= 3; i++) {
-  document.getElementById("dp" + i).value = "";
-  document.getElementById("dc" + i).value = "";
-  document.getElementById("result" + i).style.display = "none";
- }
+  if (!confirm("Reset seluruh input dan hasil perhitungan?")) {
+    return;
+  }
 
- document.getElementById("share").style.display = "none";
- document.getElementById("shareTelegram").style.display = "none";
+  document.getElementById("charge").value = "";
 
- lastResult = null;
+  for (let i = 1; i <= 3; i++) {
+
+    document.getElementById("dp" + i).value = "";
+    document.getElementById("dc" + i).value = "";
+
+  }
+
+  calculationResults = [];
+
+  document.getElementById("results").innerHTML = "";
+
+  document.getElementById("resultSection")
+    .classList.add("hidden");
+
 }
+
+if ("serviceWorker" in navigator) {
+
+  window.addEventListener("load", function() {
+
+    navigator.serviceWorker.register("./service-worker.js")
+      .catch(function(error) {
+        console.log("Service Worker:", error);
+      });
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
